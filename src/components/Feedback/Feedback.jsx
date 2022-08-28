@@ -13,7 +13,7 @@ const Feedback = ({
 }) => {
   const { good, neutral, bad } = state;
 
-  const total = countTotalFeedback();
+  const total = countTotalFeedback;
 
   const positive = countPositiveFeedbackPercentage();
 
@@ -53,7 +53,7 @@ Feedback.propTypes = {
     neutral: PropTypes.number.isRequired,
     bad: PropTypes.number.isRequired,
   }),
-  countTotalFeedback: PropTypes.func.isRequired,
+  countTotalFeedback: PropTypes.number.isRequired,
   countPositiveFeedbackPercentage: PropTypes.func.isRequired,
   leaveVote: PropTypes.func.isRequired,
 };

@@ -1,57 +1,46 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Feedback from './Feedback/Feedback';
 
-class App extends Component {
-  state = {
+const App = () => {
+  const [state, setState] = useState({
     good: 0,
     neutral: 0,
     bad: 0,
-  };
+  });
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    return good + neutral + bad;
-  };
-
-  countPositiveFeedbackPercentage = () => {
-    const total = this.countTotalFeedback();
-    if (!total) {
-      return 0;
-    }
-    const { good } = this.state;
-    const result = Math.round((good / total) * 100);
-
-    return result;
-  };
-
-  leaveVote = propName => {
-    this.setState(prevState => {
+  const leaveVote = propName => {
+    setState(prevState => {
       const value = prevState[propName];
       return {
+        ...prevState,
         [propName]: value + 1,
       };
     });
   };
 
-  render() {
-    const {
-      state,
-      countTotalFeedback,
-      countPositiveFeedbackPercentage,
-      leaveVote,
-    } = this;
+  const { good, neutral, bad } = state;
+  const total = good + neutral + bad;
 
-    return (
-      <div>
-        <Feedback
-          state={state}
-          countTotalFeedback={countTotalFeedback}
-          countPositiveFeedbackPercentage={countPositiveFeedbackPercentage}
-          leaveVote={leaveVote}
-        />
-      </div>
-    );
-  }
-}
+  const countPositiveFeedbackPercentage = () => {
+    if (!total) {
+      return 0;
+    }
+    const { good } = state;
+    const result = Math.round((good / total) * 100);
+
+    return result;
+  };
+
+  return (
+    <div>
+      <Feedback
+        state={state}
+        countTotalFeedback={total}
+        countPositiveFeedbackPercentage={countPositiveFeedbackPercentage}
+        leaveVote={leaveVote}
+      />
+    </div>
+  );
+};
 
 export default App;
